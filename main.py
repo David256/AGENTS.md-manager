@@ -3,6 +3,7 @@ import pathlib
 import re
 import time
 
+from pyfuse3._pyfuse3 import FileNameT, InodeT
 from watchdog.observers import Observer
 from watchdog.events import DirModifiedEvent, FileModifiedEvent, FileSystemEventHandler
 
@@ -104,26 +105,32 @@ class ResourceWatcher(FileSystemEventHandler):
 
     # no more events
 
-observer = Observer()
 
-observer.schedule(
-    ResourceWatcher(),
-    './resources',
-    recursive=False,
-)
+def main():
+    observer = Observer()
 
-observer.schedule(
-    ResourceWatcher(),
-    './template',
-    recursive=False,
-)
+    observer.schedule(
+        ResourceWatcher(),
+        './resources',
+        recursive=False,
+    )
 
-# ...
-observer.start()
+    observer.schedule(
+        ResourceWatcher(),
+        './template',
+        recursive=False,
+    )
 
-try:
-    while True:
-        time.sleep(0.1)
-except:
-    observer.stop()
-    observer.join()
+    # ...
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(0.1)
+    except:
+        observer.stop()
+        observer.join()
+
+
+if __name__ == '__main__':
+    main()
