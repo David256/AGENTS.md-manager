@@ -3,7 +3,6 @@ import pathlib
 import re
 import time
 
-from pyfuse3._pyfuse3 import FileNameT, InodeT
 from watchdog.observers import Observer
 from watchdog.events import DirModifiedEvent, FileModifiedEvent, FileSystemEventHandler
 
